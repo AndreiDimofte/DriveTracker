@@ -11,6 +11,8 @@ import MapKit
 /// A UIKit-based MapView wrapped for SwiftUI, used for live route tracking.
 struct DriveMapView: UIViewRepresentable {
     @ObservedObject var locationManager: LocationManager
+    @Binding var isFollowingUser: Bool // Binding to control camera follow state
+    @Binding var recenterTrigger: Bool // Toggled when user taps recenter
     
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
@@ -19,7 +21,7 @@ struct DriveMapView: UIViewRepresentable {
         mapView.isPitchEnabled = true
         mapView.isRotateEnabled = true
         
-        // Apply camera after a short delay to allow initial location logic
+        // Initial follow mode
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if let userLocation = mapView.userLocation.location {
                 let camera = MKMapCamera(
@@ -32,6 +34,7 @@ struct DriveMapView: UIViewRepresentable {
             }
             
             mapView.setUserTrackingMode(.followWithHeading, animated: true)
+            isFollowingUser = true
         }
         
         return mapView
@@ -47,6 +50,17 @@ struct DriveMapView: UIViewRepresentable {
             count: locationManager.routeCoordinates.count
         )
         mapView.addOverlay(polyline)
+        
+        // If user tapped the recenter button
+        if recenterTrigger {
+            mapView.setUserTrackingMode(.followWithHeading, animated: true)
+            DispatchQueue.main.async {
+                isFollowingUser = true
+            }
+            DispatchQueue.main.async {
+                recenterTrigger = false
+            }
+        }
     }
     
     func makeCoordinator() -> Coordinator {
@@ -58,6 +72,12 @@ struct DriveMapView: UIViewRepresentable {
         
         init(parent: DriveMapView) {
             self.parent = parent
+        }
+        
+        func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+            DispatchQueue.main.async {
+                self.parent.isFollowingUser = (mode == .followWithHeading)
+            }
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
