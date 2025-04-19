@@ -11,20 +11,21 @@ import CoreLocation
 
 /// Main view for an active drive. Displays a live tracking map and driving statistics.
 struct DriveView: View {
-    @StateObject private var locationManager = LocationManager()
-    @State private var isDriveFinished = false
-    @State private var driveSummary: DriveSummary? = nil
+    @StateObject private var locationManager = LocationManager() // Handles location updates and tracking
+    @State private var isDriveFinished = false // Triggers navigation to FinishView
+    @State private var driveSummary: DriveSummary? = nil // Stores completed drive data
     
     var body: some View {
         NavigationStack {
             ZStack {
+                // Map background
                 DriveMapView(locationManager: locationManager)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
                     Spacer()
                     
-                    // Bottom stat  bar
+                    // Bottom stats bar
                     HStack {
                         Text(locationManager.formattedDistance)
                             .font(.subheadline)
@@ -50,7 +51,7 @@ struct DriveView: View {
                     .cornerRadius(16)
                     .padding()
                     
-                    // Stop drive button
+                    // Stop Drive button
                     Button(action: stopDrive) {
                         Text("Stop Drive")
                             .font(.headline)
@@ -75,19 +76,24 @@ struct DriveView: View {
         }
     }
     
-    /// Called when the user presses the Stop Drive button. Collects summary and triggers navigation.
+    /// Called when the user presses the Stop Drive button.
+    /// Stops tracking, resolves addresses, and navigates to  summary screen.
     private func stopDrive() {
         locationManager.stopDrive()
         
-        driveSummary = DriveSummary(
-            coordinates: locationManager.routeCoordinates,
-            totalDistance: locationManager.totalDistance,
-            maxSpeed: locationManager.maxSpeed,
-            duration: locationManager.elapsedTime
-        )
-        
-        isDriveFinished = true
+        locationManager.resolveDriveAddresses { start, end in
+            driveSummary = DriveSummary(
+                coordinates: locationManager.routeCoordinates.map { CodableCoordinate(from: $0) },
+                totalDistance: locationManager.totalDistance,
+                averageSpeed: locationManager.averageSpeed,
+                duration: locationManager.elapsedTime,
+                startAddress: start,
+                endAddress: end
+            )
+            isDriveFinished = true
+        }
     }
+    
 }
 
 
