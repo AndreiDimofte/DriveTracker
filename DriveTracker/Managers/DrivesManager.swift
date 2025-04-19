@@ -31,6 +31,11 @@ class DrivesManager: ObservableObject {
         persist()
     }
     
+    func deleteDrive(at offsets: IndexSet) {
+        savedDrives.remove(atOffsets: offsets)
+        persist()
+    }
+    
     /// Saves the current list of drives to disk.
     private func persist() {
         do {
@@ -50,5 +55,4 @@ class DrivesManager: ObservableObject {
             print("No saved drives found or failed to load: \(error)")
         }
     }
-    
 }

@@ -12,14 +12,21 @@ struct HistoryView: View {
     @ObservedObject var manager = DrivesManager.shared
     
     var body: some View {
-        List(manager.savedDrives.sorted(by: { $0.date > $1.date })) { drive in
-            NavigationLink(destination: FinishView(summary: drive.summary)) {
-                VStack(alignment: .leading) {
-                    Text(drive.name)
-                        .font(.headline)
-                    Text(formattedDate(drive.date))
-                        .font(.caption)
-                        .foregroundStyle(Color.gray)
+        List {
+            ForEach(Array(manager.savedDrives.enumerated()), id: \.element.id) { index, drive in
+                NavigationLink(destination: FinishView(summary: drive.summary)) {
+                    VStack(alignment: .leading) {
+                        Text(drive.name)
+                            .font(.headline)
+                        Text(formattedDate(drive.date))
+                            .font(.caption)
+                            .foregroundStyle(Color.gray)
+                    }
+                }
+            }
+            .onDelete { offsets in
+                for offset in offsets {
+                    manager.deleteDrive(at: IndexSet(integer: offset))
                 }
             }
         }
