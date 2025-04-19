@@ -42,9 +42,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     var formattedElapsedTime: String {
-        let minutes = Int(elapsedTime) / 60
+        let hours = Int(elapsedTime) / 3600
+        let minutes = (Int(elapsedTime) / 60) % 60
         let seconds = Int(elapsedTime) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
+        
+        return hours > 0
+        ? String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        : String(format: "%02d:%02d", minutes, seconds)
     }
     
     // MARK: - Initialization

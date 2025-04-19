@@ -48,11 +48,15 @@ struct FinishView: View {
         }
     }
     
-    /// Formats the duation as MM:SS
+    /// Formats the duation as MM:SS or HH:MM:SS
     private func formattedTime(_ duration: TimeInterval) -> String {
-        let minutes = Int(duration) / 60
+        let hours = Int(duration) / 3600
+        let minutes = (Int(duration) / 60) % 60
         let seconds = Int(duration) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
+        
+        return hours > 0
+        ? String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        : String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
