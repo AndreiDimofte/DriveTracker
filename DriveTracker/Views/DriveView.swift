@@ -96,7 +96,7 @@
                 }
                 .navigationDestination(isPresented: $isDriveFinished) {
                     if let summary = driveSummary {
-                        FinishView(summary: summary)
+                        FinishView(summary: summary, isNewDrive: true)
                     }
                 }
             }

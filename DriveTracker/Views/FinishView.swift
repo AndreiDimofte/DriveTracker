@@ -16,6 +16,7 @@ struct FinishView: View {
     
     @State private var driveName: String = "" // User-entered name for the drive
     @State private var isSaved: Bool = false // Flag to show confirmation message
+    var isNewDrive: Bool = false // Default is false for history view
     
     @Environment(\.dismiss) var dismiss // Environment property to navigate back
     
@@ -43,30 +44,32 @@ struct FinishView: View {
             .padding(.horizontal)
             .frame(maxWidth: .infinity, alignment: .leading)
             
-            // Name input field
-            TextField("Enter a name for your drive", text: $driveName)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-            
-            // Save button
-            Button(action: saveDrive) {
-                Text("Save Drive")
-                    .font(.headline)
-                    .foregroundStyle(Color.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(driveName.isEmpty ? Color.gray : Color.green)
-                    .cornerRadius(12)
+            if isNewDrive {
+                // Name input field
+                TextField("Enter a name for your drive", text: $driveName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
-            }
-            .disabled(driveName.isEmpty)
-            .padding(.bottom, 10)
-            
-            // Save confirmation message
-            if isSaved {
-                Text("Drive saved successfully!")
-                    .foregroundStyle(Color.green)
-                    .font(.headline)
+                
+                // Save button
+                Button(action: saveDrive) {
+                    Text("Save Drive")
+                        .font(.headline)
+                        .foregroundStyle(Color.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(driveName.isEmpty ? Color.gray : Color.green)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                }
+                .disabled(driveName.isEmpty)
+                .padding(.bottom, 10)
+                
+                // Save confirmation message
+                if isSaved {
+                    Text("Drive saved successfully!")
+                        .foregroundStyle(Color.green)
+                        .font(.headline)
+                }
             }
             
             Spacer()
