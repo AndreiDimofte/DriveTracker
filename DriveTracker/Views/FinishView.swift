@@ -9,12 +9,14 @@ import SwiftUI
 import CoreLocation
 import MapKit
 
+/// A view that displays a summary of the completed drive,
+/// including a route map and key statistics.
 struct FinishView: View {
     let summary: DriveSummary
     
     var body: some View {
         VStack(spacing: 20) {
-            // Mini map
+            // Miniature map showing driven route
             Map {
                 MapPolyline(coordinates: summary.coordinates)
                     .stroke(.blue, lineWidth: 4)
@@ -23,7 +25,7 @@ struct FinishView: View {
             .cornerRadius(12)
             .padding()
             
-            // Stats
+            // Drive statistics
             VStack(alignment: .leading, spacing: 12) {
                 Text("Distance: \(formattedDistance(summary.totalDistance))")
                 Text("Max Speed: \(String(format: "%.0f", summary.maxSpeed)) km/h")
@@ -37,6 +39,7 @@ struct FinishView: View {
         .navigationTitle("Drive Summary")
     }
     
+    /// Formats the distance in meters or kilometers.
     private func formattedDistance(_ distance: Double) -> String {
         if distance >= 1000 {
             return String(format: "%.2f km", distance / 1000)
@@ -45,6 +48,7 @@ struct FinishView: View {
         }
     }
     
+    /// Formats the duation as MM:SS
     private func formattedTime(_ duration: TimeInterval) -> String {
         let minutes = Int(duration) / 60
         let seconds = Int(duration) % 60

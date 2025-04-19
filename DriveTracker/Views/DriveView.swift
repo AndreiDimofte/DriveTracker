@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
+/// Main view for an active drive. Displays a live tracking map and driving statistics.
 struct DriveView: View {
     @StateObject private var locationManager = LocationManager()
     @State private var isDriveFinished = false
@@ -17,13 +18,13 @@ struct DriveView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                DriveMapUIKitView(locationManager: locationManager)
+                DriveMapView(locationManager: locationManager)
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
                     Spacer()
                     
-                    // Bottom bar
+                    // Bottom stat  bar
                     HStack {
                         Text(locationManager.formattedDistance)
                             .font(.subheadline)
@@ -49,19 +50,8 @@ struct DriveView: View {
                     .cornerRadius(16)
                     .padding()
                     
-                    // Stop Drive button
-                    Button(action: {
-                        locationManager.stopDrive()
-                        
-                        driveSummary = DriveSummary(
-                            coordinates: locationManager.routeCoordinates,
-                            totalDistance: locationManager.totalDistance,
-                            maxSpeed: locationManager.maxSpeed,
-                            duration: locationManager.elapsedTime
-                        )
-                        
-                        isDriveFinished = true
-                    }) {
+                    // Stop drive button
+                    Button(action: stopDrive) {
                         Text("Stop Drive")
                             .font(.headline)
                             .foregroundColor(.white)
@@ -85,64 +75,18 @@ struct DriveView: View {
         }
     }
     
-}
-
-struct DriveMapUIKitView: UIViewRepresentable {
-    @ObservedObject var locationManager: LocationManager
-    
-    func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
-        mapView.delegate = context.coordinator
-        mapView.showsUserLocation = true
-        mapView.isPitchEnabled = true
-        mapView.isRotateEnabled = true
+    /// Called when the user presses the Stop Drive button. Collects summary and triggers navigation.
+    private func stopDrive() {
+        locationManager.stopDrive()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if let userLocation = mapView.userLocation.location {
-                let camera = MKMapCamera(
-                    lookingAtCenter: userLocation.coordinate,
-                    fromDistance: 10,
-                    pitch: 60,
-                    heading: userLocation.course
-                )
-                mapView.setCamera(camera, animated: false)
-            }
-            
-            mapView.setUserTrackingMode(.followWithHeading, animated: true)
-        }
+        driveSummary = DriveSummary(
+            coordinates: locationManager.routeCoordinates,
+            totalDistance: locationManager.totalDistance,
+            maxSpeed: locationManager.maxSpeed,
+            duration: locationManager.elapsedTime
+        )
         
-        return mapView
-    }
-    
-    func updateUIView(_ mapView: MKMapView, context: Context) {
-        guard locationManager.routeCoordinates.count > 1 else { return }
-        
-        mapView.overlays.forEach { mapView.removeOverlay($0) }
-        
-        let polyline = MKPolyline(coordinates: locationManager.routeCoordinates, count: locationManager.routeCoordinates.count)
-        mapView.addOverlay(polyline)
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
-    }
-    
-    class Coordinator: NSObject, MKMapViewDelegate {
-        var parent: DriveMapUIKitView
-        
-        init(parent: DriveMapUIKitView) {
-            self.parent = parent
-        }
-        
-        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            if let polyline = overlay as? MKPolyline {
-                let renderer = MKPolylineRenderer(polyline: polyline)
-                renderer.strokeColor = UIColor.systemBlue
-                renderer.lineWidth = 5
-                return renderer
-            }
-            return MKOverlayRenderer(overlay: overlay)
-        }
+        isDriveFinished = true
     }
 }
 

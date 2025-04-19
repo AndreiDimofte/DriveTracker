@@ -7,6 +7,7 @@
 
 import CoreLocation
 
+/// Represents the result of a completed drive.
 struct DriveSummary {
     let coordinates: [CLLocationCoordinate2D]
     let totalDistance: Double
