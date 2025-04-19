@@ -13,7 +13,7 @@ struct HistoryView: View {
     
     var body: some View {
         List {
-            ForEach(Array(manager.savedDrives.enumerated()), id: \.element.id) { index, drive in
+            ForEach(Array(manager.savedDrives.sorted(by: { $0.date > $1.date }))) { drive in
                 NavigationLink(destination: FinishView(summary: drive.summary)) {
                     VStack(alignment: .leading) {
                         Text(drive.name)
@@ -25,8 +25,12 @@ struct HistoryView: View {
                 }
             }
             .onDelete { offsets in
+                let sortedDrives = manager.savedDrives.sorted(by: { $0.date > $1.date })
                 for offset in offsets {
-                    manager.deleteDrive(at: IndexSet(integer: offset))
+                    let driveToDelete = sortedDrives[offset]
+                    if let originalIndex = manager.savedDrives.firstIndex(where: { $0.id == driveToDelete.id }) {
+                        manager.deleteDrive(at: IndexSet(integer: originalIndex))
+                    }
                 }
             }
         }
