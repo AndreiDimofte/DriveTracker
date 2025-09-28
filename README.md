@@ -29,9 +29,10 @@ DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you t
 <p float="left">
   <img src="DriveTracker/Resources/Screenshots/MainView.png" alt="Start Screen" width="250"/>
   <img src="DriveTracker/Resources/Screenshots/DriveView.png" alt="Drive View" width="250"/>
-  <img src="DriveTracker/Resources/Screenshots/UserProfile.png" alt="Drive View" width="250"/>
-  <img src="DriveTracker/Resources/Screenshots/DriveSummary.png" alt="Drive View" width="250"/>
-  <img src="DriveTracker/Resources/Screenshots/DriveHistory.png" alt="Drive View" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/UserProfile.png" alt="User Profile" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/DriveSummary.png" alt="Drive Summary" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/DriveHistory.png" alt="Drive History" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/DriveDelete.png" alt="Drive Delete" width="250"/>
 </p>
 
 ## Tech Stack
