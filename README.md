@@ -11,7 +11,7 @@ DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you t
   Automatically calculates distance, average speed, and duration for every drive.
 
 - **Start & End Addresses**  
-  Reverse-geocoded addresses for where you started and finished your drive.
+  Addresses for where you started and finished your drive.
 
 - **Save Drives**  
   Name and store your completed drives locally. Access them anytime in the history screen.
@@ -25,9 +25,14 @@ DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you t
   - Future updates: multiple cars, fuel consumption tracking, and car selection per drive.
 
 ## Screenshots
-![Start Screen](DriveTracker/Resources/Screenshots/MainView.png)
-![Drive View](DriveTracker/Resources/Screenshots/DriveView.png)
 
+<p float="left">
+  <img src="DriveTracker/Resources/Screenshots/MainView.png" alt="Start Screen" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/DriveView.png" alt="Drive View" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/UserProfile.png" alt="Drive View" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/DriveSummary.png" alt="Drive View" width="250"/>
+  <img src="DriveTracker/Resources/Screenshots/DriveHistory.png" alt="Drive View" width="250"/>
+</p>
 
 ## Tech Stack
 
