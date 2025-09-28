@@ -32,3 +32,27 @@ DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you t
 - **Language:** Swift
 - **Frameworks:** SwiftUI, MapKit, CoreLocation
 - **Architecture:** MVVM-inspired, with `Manager` classes for persistence and `View`s for UI
+
+## 📂 Project Structure
+
+DriveTracker/
+├── App/
+│   └── DriveTrackerApp.swift
+├── Managers/
+│   ├── DrivesManager.swift
+│   ├── LocationManager.swift
+│   └── ProfileManager.swift
+├── Models/
+│   ├── CodableCoordinate.swift
+│   ├── DriveSummary.swift
+│   ├── Profile.swift
+│   └── SavedDrive.swift
+├── Views/
+│   ├── StartView.swift
+│   ├── DriveView.swift
+│   ├── FinishView.swift
+│   ├── HistoryView.swift
+│   ├── ProfileEntryView.swift
+│   └── ProfileOverviewView.swift
+└── Map/
+└── DriveMapView.swift
