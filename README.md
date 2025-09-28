@@ -25,6 +25,8 @@ DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you t
   - Future updates: multiple cars, fuel consumption tracking, and car selection per drive.
 
 ## Screenshots
+![Start Screen](DriveTracker/Resources/Screenshots/MainView.png)
+![Drive View](DriveTracker/Resources/Screenshots/DriveView.png)
 
 
 ## Tech Stack
