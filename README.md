@@ -1,5 +1,13 @@
 # DriveTracker
 
+![Swift](https://img.shields.io/badge/Swift-5.9-orange?logo=swift)
+![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-lightgrey?logo=apple)
+
+<p align="center">
+  <img src="DriveTracker/Resources/Assets.xcassets/AppIcon.appiconset/logo.png" alt="DriveTracker Logo" width="120"/>
+</p>
+
+
 DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you track your drives in real time, save them for later, and manage a personal driving profile.  
 
 ## Features
@@ -40,3 +48,30 @@ DriveTracker is an iOS app built with **SwiftUI** and **MapKit** that lets you t
 - **Language:** Swift
 - **Frameworks:** SwiftUI, MapKit, CoreLocation
 - **Architecture:** MVVM-inspired, with `Manager` classes for persistence and `View`s for UI
+
+## Getting Started
+
+**Requirements:** iOS 17+ and Xcode 15 or later
+
+1. Clone this repository
+   
+   ```bash
+   git clone https://github.com/AndreiDimofte/DriveTracker.git
+   ```
+2.	Open the project in Xcode.
+3.	Run on your simulator or a real device (requires location permissions).
+
+## Roadmap
+- Basic drive tracking (distance, speed, time)
+- Drive history with saving & loading
+- User profile with editable car info
+
+### Coming Soon
+- Multiple cars per profile
+- Select car before/after a drive
+- Add car specifications & average fuel consumption
+
+## Contributing
+
+At the moment, this project does not accept pull requests.  
+In the future, contributions might be open — stay tuned!
