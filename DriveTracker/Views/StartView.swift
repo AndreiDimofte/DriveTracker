@@ -10,6 +10,9 @@ import SwiftUI
 /// Welcome screen shown at app launch.
 /// Allows the user to start a new drive or view their saved drive history.
 struct StartView: View {
+    @State private var showProfileEntry = false
+    @State private var showProfileOverview = false
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
@@ -44,7 +47,34 @@ struct StartView: View {
                         .padding(.horizontal)
                 }
                 
+                // Profile button
+                Button(action: {
+                    if ProfileManager.shared.profile == nil {
+                        showProfileEntry = true
+                    } else {
+                        showProfileOverview = true
+                    }
+                }) {
+                    Text("Profile")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.orange)
+                        .foregroundStyle(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                }
+                
                 Spacer()
+            }
+            .navigationDestination(isPresented: $showProfileEntry) {
+                ProfileEntryView(onSave: {
+                    showProfileEntry = false
+                    showProfileOverview = true
+                })
+            }
+            .navigationDestination(isPresented: $showProfileOverview) {
+                ProfileOverviewView()
             }
         }
     }
